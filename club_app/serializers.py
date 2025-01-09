@@ -11,3 +11,13 @@ class ClubSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club
         exclude = ("emblem",)
+
+class ClubCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Club
+        fields = ["name", "emblem"]
+
+
+    def create(self, validated_data):
+        club = Club.objects.create(**validated_data)
+        return club
