@@ -18,3 +18,9 @@ add-dependencies:
 
 dependencies:
 	pip install -r requirements.txt
+
+#rodar os testes com o pytest e gerar relatório de cobertura
+coverage:
+	coverage run -m pytest
+	coverage report
+	coverage html

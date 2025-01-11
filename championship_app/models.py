@@ -7,6 +7,7 @@ from PIL import Image
 import os
 from io import BytesIO
 from django.core.files.base import ContentFile
+from datetime import timezone
 
 
 # Create your models here.
@@ -68,3 +69,9 @@ class Championship(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+    def get_created_at_utc(self):
+        return self.created_at.astimezone(timezone.utc).isoformat()
+
+    def get_updated_at_utc(self):
+        return self.updated_at.astimezone(timezone.utc).isoformat()

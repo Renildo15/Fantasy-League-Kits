@@ -7,7 +7,7 @@ from .serializers import ChampionshipSerializer, ChampionshipCreateSerializer
 
 # Create your views here.
 class ChampionshipListPublicView(generics.ListAPIView):
-    queryset = Championship.objects.all()
+    queryset = Championship.objects.all().order_by('name')
     serializer_class = ChampionshipSerializer
     permission_classes = []
     filter_backends = [SearchFilter]
