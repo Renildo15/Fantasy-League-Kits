@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import ClubDetailPublicView, ClubListPublicView, ClubCreateView
+from .views import ClubCreateView, ClubDetailPublicView, ClubListPublicView
 
 urlpatterns = [
     path("list/", ClubListPublicView.as_view(), name="clubs"),

@@ -24,7 +24,8 @@ class ClubAdmin(admin.ModelAdmin):
         if obj.emblem:
             return format_html(
                 '<img src="{}" style="height: 50px;"/>',
-                obj.emblem_versions.get("512x512") or obj.emblem_versions.get("512x512"),
+                obj.emblem_versions.get("512x512")
+                or obj.emblem_versions.get("512x512"),
             )
         return "No Emblem"
 
@@ -33,14 +34,19 @@ class ClubAdmin(admin.ModelAdmin):
     def clickable_emblem_url_512(self, obj):
         if obj.emblem_versions:
             return format_html(
-                '<a href="{}" target="_blank">{}</a>',  obj.emblem_versions.get("512x512"),  obj.emblem_versions.get("512x512")
+                '<a href="{}" target="_blank">{}</a>',
+                obj.emblem_versions.get("512x512"),
+                obj.emblem_versions.get("512x512"),
             )
+
     clickable_emblem_url_512.short_description = "Emblem URL (512x512)"
 
     def clickable_emblem_url_original(self, obj):
         if obj.emblem_versions:
             return format_html(
-                '<a href="{}" target="_blank">{}</a>', obj.emblem_versions.get("original"), obj.emblem_versions.get("original")
+                '<a href="{}" target="_blank">{}</a>',
+                obj.emblem_versions.get("original"),
+                obj.emblem_versions.get("original"),
             )
-        
+
     clickable_emblem_url_original.short_description = "Emblem URL (Original)"

@@ -23,7 +23,8 @@ class ChampionshipAdmin(admin.ModelAdmin):
     def logo_preview(self, obj):
         if obj.logo:
             return format_html(
-                '<img src="{}" style="height: 50px;"/>', obj.logo_versions.get("512x512") or obj.logo_versions.get("512x512")
+                '<img src="{}" style="height: 50px;"/>',
+                obj.logo_versions.get("512x512") or obj.logo_versions.get("512x512"),
             )
         return "No Logo"
 
@@ -32,7 +33,9 @@ class ChampionshipAdmin(admin.ModelAdmin):
     def clickable_logo_url_512(self, obj):
         if obj.logo_versions:
             return format_html(
-                '<a href="{}" target="_blank">{}</a>', obj.logo_versions.get("512x512"), obj.logo_versions.get("512x512")
+                '<a href="{}" target="_blank">{}</a>',
+                obj.logo_versions.get("512x512"),
+                obj.logo_versions.get("512x512"),
             )
         return "No URL"
 
@@ -41,8 +44,10 @@ class ChampionshipAdmin(admin.ModelAdmin):
     def clickable_logo_url(self, obj):
         if obj.logo_versions:
             return format_html(
-                '<a href="{}" target="_blank">{}</a>', obj.logo_versions.get("original"), obj.logo_versions.get("original")
+                '<a href="{}" target="_blank">{}</a>',
+                obj.logo_versions.get("original"),
+                obj.logo_versions.get("original"),
             )
         return "No URL"
-    
+
     clickable_logo_url.short_description = "Logo URL (Original)"

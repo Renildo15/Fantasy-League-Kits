@@ -2,7 +2,7 @@ from rest_framework import generics
 from rest_framework.filters import SearchFilter
 
 from .models import Club
-from .serializers import ClubSerializer, ClubCreateSerializer
+from .serializers import ClubCreateSerializer, ClubSerializer
 
 
 # Create your views here.
@@ -13,10 +13,12 @@ class ClubListPublicView(generics.ListAPIView):
     filter_backends = [SearchFilter]
     search_fields = ["name"]
 
+
 class ClubCreateView(generics.CreateAPIView):
     queryset = Club.objects.all()
     serializer_class = ClubCreateSerializer
     permission_classes = []
+
 
 class ClubDetailPublicView(generics.RetrieveAPIView):
     queryset = Club.objects.all()

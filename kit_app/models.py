@@ -3,11 +3,17 @@ from uuid import uuid4
 from django.conf import settings
 from django.db import models
 
-from club_app.models import Club
-
 
 # Create your models here.
 class Kit(models.Model):
+
+    KIT_TYPE_CHOICES = (
+        ("fts", "FTS"),
+        ("fl", "FL"),
+        ("dls", "DLS"),
+        ("other", "Other"),
+    )
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     club = models.ForeignKey(
         "club_app.Club", on_delete=models.CASCADE, related_name="kits"
@@ -26,6 +32,7 @@ class Kit(models.Model):
     kit_goalkeeper_away_url = models.URLField(null=True, blank=True)
     kit_version = models.CharField(max_length=255, null=True, blank=True)
     kit_current = models.BooleanField(default=False)
+    kit_type = models.CharField(max_length=255, choices=KIT_TYPE_CHOICES, default="fts")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

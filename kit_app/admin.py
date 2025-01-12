@@ -16,10 +16,11 @@ class KitAdmin(admin.ModelAdmin):
         "kit_goalkeeper_away_preview",
         "kit_version",
         "kit_current",
+        "kit_type",
         "created_at",
         "updated_at",
     )
-    list_filter = ("club", "kit_current", "created_at", "updated_at")
+    list_filter = ("club", "kit_current", "kit_type", "created_at", "updated_at")
     search_fields = ("club", "kit_version")
     readonly_fields = (
         "kit_home_preview",

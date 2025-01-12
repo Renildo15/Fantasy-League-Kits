@@ -1,12 +1,11 @@
+import os
+from io import BytesIO
 from uuid import uuid4
 
 from django.conf import settings
-from django.db import models
-
-from PIL import Image
-import os
-from io import BytesIO
 from django.core.files.base import ContentFile
+from django.db import models
+from PIL import Image
 
 
 # Create your models here.
@@ -41,8 +40,6 @@ class Club(models.Model):
             "512x512": resized_url,
         }
 
-
-
     def generate_resized_emblem(self, original_path, size):
 
         from pathlib import Path
@@ -55,7 +52,6 @@ class Club(models.Model):
             resized_name = f"{base}_{size[0]}x{size[1]}{ext}"
 
             resized_path = Path(self.emblem.field.upload_to) / resized_name
-
 
             buffer = BytesIO()
             img.save(buffer, format="PNG")

@@ -1,14 +1,12 @@
+import os
+from datetime import timezone
+from io import BytesIO
 from uuid import uuid4
 
 from django.conf import settings
-from django.db import models
-
-from PIL import Image
-import os
-from io import BytesIO
 from django.core.files.base import ContentFile
-from datetime import timezone
-
+from django.db import models
+from PIL import Image
 
 # Create your models here.
 
@@ -32,7 +30,6 @@ class Championship(models.Model):
             self.process_logos_versions()
             super().save(update_fields=["logo_versions"])
 
-
     def process_logos_versions(self):
         original_path = self.logo.path
         resized_path = self.generate_resized_logo(original_path, (512, 512))
@@ -44,8 +41,6 @@ class Championship(models.Model):
             "original": original_url,
             "512x512": resized_url,
         }
-
-
 
     def generate_resized_logo(self, original_path, size):
 
@@ -59,7 +54,6 @@ class Championship(models.Model):
             resized_name = f"{base}_{size[0]}x{size[1]}{ext}"
 
             resized_path = Path(self.logo.field.upload_to) / resized_name
-
 
             buffer = BytesIO()
             img.save(buffer, format="PNG")

@@ -1,6 +1,7 @@
 from django.urls import path
 
-from .views import ChampionshipDetailPublicView, ChampionshipListPublicView, ChampionshipCreateView
+from .views import (ChampionshipCreateView, ChampionshipDetailPublicView,
+                    ChampionshipListPublicView)
 
 urlpatterns = [
     path("list/", ChampionshipListPublicView.as_view(), name="championships"),

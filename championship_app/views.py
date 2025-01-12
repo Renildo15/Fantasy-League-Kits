@@ -2,16 +2,17 @@ from rest_framework import generics
 from rest_framework.filters import SearchFilter
 
 from .models import Championship
-from .serializers import ChampionshipSerializer, ChampionshipCreateSerializer
+from .serializers import ChampionshipCreateSerializer, ChampionshipSerializer
 
 
 # Create your views here.
 class ChampionshipListPublicView(generics.ListAPIView):
-    queryset = Championship.objects.all().order_by('name')
+    queryset = Championship.objects.all().order_by("name")
     serializer_class = ChampionshipSerializer
     permission_classes = []
     filter_backends = [SearchFilter]
     search_fields = ["name"]
+
 
 class ChampionshipCreateView(generics.CreateAPIView):
     queryset = Championship.objects.all()
