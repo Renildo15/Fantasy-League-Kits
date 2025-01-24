@@ -38,6 +38,7 @@ class ClubAdmin(admin.ModelAdmin):
                 obj.emblem_versions.get("512x512"),
                 obj.emblem_versions.get("512x512"),
             )
+        return "No Emblem"
 
     clickable_emblem_url_512.short_description = "Emblem URL (512x512)"
 
@@ -48,5 +49,6 @@ class ClubAdmin(admin.ModelAdmin):
                 obj.emblem_versions.get("original"),
                 obj.emblem_versions.get("original"),
             )
+        return "No Emblem"
 
     clickable_emblem_url_original.short_description = "Emblem URL (Original)"

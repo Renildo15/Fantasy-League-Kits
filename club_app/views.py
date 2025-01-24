@@ -7,7 +7,7 @@ from .serializers import ClubCreateSerializer, ClubSerializer
 
 # Create your views here.
 class ClubListPublicView(generics.ListAPIView):
-    queryset = Club.objects.all()
+    queryset = Club.objects.all().order_by("name")
     serializer_class = ClubSerializer
     permission_classes = []
     filter_backends = [SearchFilter]
