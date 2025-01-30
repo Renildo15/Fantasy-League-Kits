@@ -10,9 +10,17 @@ from PIL import Image
 
 # Create your models here.
 class Club(models.Model):
+
+    FEDERATIONS_CHOICES = (
+        ("FCH", "FCH"),
+        ("FCR", "FCR"),
+        ("FCM", "FCM"),
+    )
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     emblem = models.ImageField(upload_to="clubs/emblems/", null=True, blank=True)
+    federation = models.CharField(choices=FEDERATIONS_CHOICES, default="FCH", max_length=10)
     emblem_versions = models.JSONField(default=dict, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
