@@ -12,6 +12,19 @@ class ClubSerializer(serializers.ModelSerializer):
         model = Club
         exclude = ("emblem",)
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if self.context.get("all_kits", False):
+            representation["kits"] = KitSerializer(instance.kits.all(), many=True).data
+        else:
+            current_kit = instance.kits.filter(kit_current=True).first()
+            if current_kit:
+                representation["kits"] = KitSerializer(current_kit).data
+            else:
+                representation["kits"] = []
+
+        return representation
+
 
 class ClubCreateSerializer(serializers.ModelSerializer):
     class Meta:
