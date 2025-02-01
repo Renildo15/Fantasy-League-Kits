@@ -16,7 +16,7 @@ class ClubSerializer(serializers.ModelSerializer):
 class ClubCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club
-        fields = ["name", "emblem"]
+        fields = ["name", "federation", "emblem"]
 
     def create(self, validated_data):
         club = Club.objects.create(**validated_data)
