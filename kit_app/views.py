@@ -1,12 +1,22 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from .models import Kit
+from .serializers import KitCreateSerializer, KitCurrentKitSerializer
+
+
+class KitCreateView(generics.CreateAPIView):
+    queryset = Kit.objects.all()
+    serializer_class = KitCreateSerializer
+    parser_classes = (MultiPartParser, FormParser)
+    permission_classes = []
 
 
 class KitCurrentKitView(generics.UpdateAPIView):
     queryset = Kit.objects.all()
+    serializer_class = KitCurrentKitSerializer
     permission_classes = []
 
 
