@@ -8,7 +8,6 @@ from .serializers import ClubCreateSerializer, ClubSerializer
 
 # Create your views here.
 class ClubListPublicView(generics.ListAPIView):
-    queryset = Club.objects.all().order_by("name")
     serializer_class = ClubSerializer
     permission_classes = []
     filter_backends = [SearchFilter]
@@ -19,6 +18,13 @@ class ClubListPublicView(generics.ListAPIView):
         all_kits = self.request.query_params.get('all_kits', 'true').lower() == 'true'
         context['all_kits'] = all_kits
         return context
+    
+    def get_queryset(self):
+        queryset = Club.objects.all().order_by("name")
+        federation = self.request.query_params.get("federation", None)
+        if federation:
+            queryset = queryset.filter(federation=federation)
+        return queryset
 
 class ClubRecentsListView(generics.ListAPIView):
     queryset = Club.objects.all().order_by("-created_at")[:5]
