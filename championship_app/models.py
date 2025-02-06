@@ -8,6 +8,8 @@ from django.core.files.base import ContentFile
 from django.db import models
 from PIL import Image
 
+from io import BytesIO
+import requests
 # Create your models here.
 
 
@@ -27,10 +29,14 @@ class Championship(models.Model):
         super().save(*args, **kwargs)
 
         if self.logo:
-            self.process_logos_versions()
+            if settings.DEBUG:
+                self.process_logos_versions_local()
+            else:
+                self.process_logos_versions_aws()
             super().save(update_fields=["logo_versions"])
+            
 
-    def process_logos_versions(self):
+    def process_logos_versions_local(self):
         original_path = self.logo.path
         resized_path = self.generate_resized_logo(original_path, (512, 512))
 
@@ -41,6 +47,25 @@ class Championship(models.Model):
             "original": original_url,
             "512x512": resized_url,
         }
+
+    def process_logos_versions_aws(self):
+        original_url = f"{settings.MEDIA_URL}{self.logo.name}"  # Garante URL correta
+
+        try:
+            response = requests.get(original_url, timeout=10)  # Define um timeout
+            response.raise_for_status()  # Verifica se o download falhou
+
+            image_file = BytesIO(response.content)  # Armazena a imagem na memória
+            resized_path = self.generate_resized_logo(image_file, (512, 512))
+
+            resized_url = f"{settings.MEDIA_URL}{resized_path}"
+
+            self.logo_versions = {
+                "original": original_url,
+                "512x512": resized_url,
+            }
+        except requests.exceptions.RequestException as e:
+            print(f"Erro ao baixar a imagem do S3: {e}")
 
     def generate_resized_logo(self, original_path, size):
 

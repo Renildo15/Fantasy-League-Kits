@@ -41,24 +41,27 @@ class Kit(models.Model):
         verbose_name_plural = "Kits"
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
+        super().save(*args, **kwargs)  # Primeiro salva o objeto
 
-        if self.kit_home and not self.kit_home_url:
-            full_url = f"{settings.SITE_DOMAIN}{settings.MEDIA_URL}{self.kit_home.name}"
-            self.kit_home_url = full_url
-            super().save(update_fields=["kit_home_url"])
+        updated_fields = []  # Lista para rastrear quais campos precisam ser atualizados
 
-        if self.kit_away and not self.kit_away_url:
-            full_url = f"{settings.SITE_DOMAIN}{settings.MEDIA_URL}{self.kit_away.name}"
-            self.kit_away_url = full_url
-            super().save(update_fields=["kit_away_url"])
+        def set_url(image_field, url_field):
+            """Define a URL do kit, dependendo do ambiente (DEBUG ou Produção)."""
+            image = getattr(self, image_field)
+            if image and not getattr(self, url_field):
+                if settings.DEBUG:
+                    full_url = f"{settings.SITE_DOMAIN}{settings.MEDIA_URL}{image.name}"
+                else:
+                    full_url = f"{settings.MEDIA_URL}{image.name}"
 
-        if self.kit_goalkeeper_home and not self.kit_goalkeeper_home_url:
-            full_url = f"{settings.SITE_DOMAIN}{settings.MEDIA_URL}{self.kit_goalkeeper_home.name}"
-            self.kit_goalkeeper_home_url = full_url
-            super().save(update_fields=["kit_goalkeeper_home_url"])
+                setattr(self, url_field, full_url)
+                updated_fields.append(url_field)
 
-        if self.kit_goalkeeper_away and not self.kit_goalkeeper_away_url:
-            full_url = f"{settings.SITE_DOMAIN}{settings.MEDIA_URL}{self.kit_goalkeeper_away.name}"
-            self.kit_goalkeeper_away_url = full_url
-            super().save(update_fields=["kit_goalkeeper_away_url"])
+        set_url("kit_home", "kit_home_url")
+        set_url("kit_away", "kit_away_url")
+        set_url("kit_goalkeeper_home", "kit_goalkeeper_home_url")
+        set_url("kit_goalkeeper_away", "kit_goalkeeper_away_url")
+
+        if updated_fields:  # Só faz um novo save se houver algo para atualizar
+            super().save(update_fields=updated_fields)
+

@@ -7,6 +7,11 @@ from django.core.files.base import ContentFile
 from django.db import models
 from PIL import Image
 
+from io import BytesIO
+import requests
+from django.core.files.base import ContentFile
+
+from pathlib import Path
 
 # Create your models here.
 class Club(models.Model):
@@ -33,10 +38,32 @@ class Club(models.Model):
         super().save(*args, **kwargs)
 
         if self.emblem:
-            self.process_emblem_versions()
+            if settings.DEBUG:
+                self.process_emblem_versions_local()
+            else:
+                self.process_emblem_versions_aws()
             super().save(update_fields=["emblem_versions"])
 
-    def process_emblem_versions(self):
+    def process_emblem_versions_aws(self):
+        original_url = f"{settings.MEDIA_URL}{self.emblem.name}"  # Corrigido para garantir URL válida
+
+        try:
+            response = requests.get(original_url, timeout=10)  # Baixa a imagem
+            response.raise_for_status()
+
+            image_file = BytesIO(response.content)  # Armazena na memória
+            resized_path = self.generate_resized_emblem(image_file, (512, 512))
+
+            resized_url = f"{settings.MEDIA_URL}{resized_path}"
+
+            self.emblem_versions = {
+                "original": original_url,
+                "512x512": resized_url,
+            }
+        except requests.exceptions.RequestException as e:
+            print(f"Erro ao baixar a imagem do S3: {e}")
+
+    def process_emblem_versions_local(self):
         original_path = self.emblem.path
         resized_path = self.generate_resized_emblem(original_path, (512, 512))
 
@@ -48,11 +75,10 @@ class Club(models.Model):
             "512x512": resized_url,
         }
 
-    def generate_resized_emblem(self, original_path, size):
+    def generate_resized_emblem(self, image_file, size):
 
-        from pathlib import Path
-
-        with Image.open(original_path) as img:
+        image_file.seek(0)  # Garante que a leitura começa do início
+        with Image.open(image_file) as img:
             img = img.convert("RGBA")
             img.thumbnail(size, Image.LANCZOS)
 
@@ -66,6 +92,6 @@ class Club(models.Model):
             buffer.seek(0)
             self.emblem.storage.save(str(resized_path), ContentFile(buffer.read()))
             return str(resized_path)
-
+        
     def __str__(self):
         return f"{self.name}"
