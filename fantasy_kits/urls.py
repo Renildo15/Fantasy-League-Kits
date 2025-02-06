@@ -19,5 +19,5 @@ urlpatterns = [
     path("api/kit/", include("kit_app.urls")),
 ]
 
-# if settings.DEBUG:
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
