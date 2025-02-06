@@ -29,7 +29,7 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = ["fantasykits.pythonanywhere.com", "192.168.1.13"]
+ALLOWED_HOSTS = ["fantasykits.pythonanywhere.com", "192.168.1.13", "3.19.92.214"]
 
 
 # Application definition
