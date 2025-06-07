@@ -1,9 +1,6 @@
 from uuid import uuid4
 from django.db import models
-
-
-
-from pathlib import Path
+from stadium_app.models import Stadium
 
 # Create your models here.
 class Club(models.Model):
@@ -17,13 +14,10 @@ class Club(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     abbreviation = models.CharField(max_length=10, blank=True, null=True)
-    # squad_image = models.ImageField(upload_to="clubs/squads/", null=True, blank=True) criar uma tabela Squad
-    # stadium = models.CharField(max_length=255, blank=True, null=True) criar uma tabela Stadium
-    #uniform_home = models.ImageField(upload_to="clubs/uniforms/home/", null=True, blank=True) criar uma tabela Uniform
-    #uniform_away = models.ImageField(upload_to="clubs/uniforms/away/", null=True, blank=True)
-    #uniform_third = models.ImageField(upload_to="clubs/uniforms/third/", null=True, blank=True)
+    stadium = models.ForeignKey(Stadium, on_delete=models.CASCADE, related_name="clubs")
     emblem = models.ImageField(upload_to="clubs/emblems/", null=True, blank=True)
     federation = models.CharField(choices=FEDERATIONS_CHOICES, default="FCH", max_length=10)
+    coach = models.CharField(max_length=255, blank=True, null=True)
     total_titles = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
