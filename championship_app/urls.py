@@ -1,12 +1,14 @@
 from django.urls import path
 
 from .views import (ChampionshipCreateView, ChampionshipDetailPublicView,
-                    ChampionshipListPublicView)
+                    ChampionshipListPublicView, ChampionshipUpdateView, ChampionshipDeleteView)
 
 urlpatterns = [
     path("list/", ChampionshipListPublicView.as_view(), name="championships"),
     path(
-        "deatil/<uuid:pk>/", ChampionshipDetailPublicView.as_view(), name="championship"
+        "detail/<uuid:pk>/", ChampionshipDetailPublicView.as_view(), name="championship"
     ),
     path("create/", ChampionshipCreateView.as_view(), name="create_championship"),
+    path("update/<uuid:pk>/", ChampionshipUpdateView.as_view(), name="update_championship"),
+    path("delete/<uuid:pk>/", ChampionshipDeleteView.as_view(), name="delete_championship"),
 ]
