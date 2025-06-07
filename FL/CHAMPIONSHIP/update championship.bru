@@ -1,0 +1,23 @@
+meta {
+  name: update championship
+  type: http
+  seq: 5
+}
+
+patch {
+  url: http://10.220.0.19:8000/api/championship/update/:uuid/
+  body: multipartForm
+  auth: none
+}
+
+params:path {
+  uuid: a756cab3-d929-4da8-8f76-fc0b62c967ef
+}
+
+body:multipart-form {
+  name: Golden Leaguee
+  logo: @file(/home/habby-valle/Imagens/fantasy-league/emblemas/A.Alcaraz-logo.png)
+  table_image: @file(/home/habby-valle/Imagens/image.png)
+  championship_type: LEAGUE
+  tier: 1
+}

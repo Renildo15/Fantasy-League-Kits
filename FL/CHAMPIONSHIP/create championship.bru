@@ -1,0 +1,19 @@
+meta {
+  name: create championship
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://10.220.0.19:8000/api/championship/create/
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  name: Golden League
+  logo: @file(/home/habby-valle/Imagens/fantasy-league/emblemas/A.Alcaraz-logo.png)
+  table_image: @file(/home/habby-valle/Imagens/image.png)
+  championship_type: LEAGUE
+  tier: 1
+}
