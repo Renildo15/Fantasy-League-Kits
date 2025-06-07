@@ -10,12 +10,12 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("stadium_app", "0001_initial"),
+        ("club_app", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name="Club",
+            name="Uniform",
             fields=[
                 (
                     "id",
@@ -28,39 +28,31 @@ class Migration(migrations.Migration):
                 ),
                 ("name", models.CharField(max_length=255)),
                 (
-                    "abbreviation",
-                    models.CharField(blank=True, max_length=10, null=True),
-                ),
-                (
-                    "emblem",
+                    "home_image",
                     models.ImageField(
-                        blank=True, null=True, upload_to="clubs/emblems/"
+                        blank=True, null=True, upload_to="clubs/uniforms/home/"
                     ),
                 ),
                 (
-                    "federation",
-                    models.CharField(
-                        choices=[("FCH", "FCH"), ("FCR", "FCR"), ("FCM", "FCM")],
-                        default="FCH",
-                        max_length=10,
+                    "away_image",
+                    models.ImageField(
+                        blank=True, null=True, upload_to="clubs/uniforms/away/"
                     ),
                 ),
-                ("coach", models.CharField(blank=True, max_length=255, null=True)),
-                ("total_titles", models.PositiveIntegerField(default=0)),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("updated_at", models.DateTimeField(auto_now=True)),
                 (
-                    "stadium",
+                    "club",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name="clubs",
-                        to="stadium_app.stadium",
+                        related_name="uniforms",
+                        to="club_app.club",
                     ),
                 ),
             ],
             options={
-                "verbose_name": "Club",
-                "verbose_name_plural": "Clubs",
+                "verbose_name": "Uniform",
+                "verbose_name_plural": "Uniforms",
             },
         ),
     ]
