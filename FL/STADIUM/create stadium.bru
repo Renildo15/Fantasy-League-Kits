@@ -1,0 +1,18 @@
+meta {
+  name: create stadium
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://10.220.0.19:8000/api/stadium/create/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Sunrise Arena",
+    "capacity": 30000
+  }
+}

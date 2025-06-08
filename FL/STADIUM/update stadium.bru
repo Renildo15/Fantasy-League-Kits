@@ -1,0 +1,22 @@
+meta {
+  name: update stadium
+  type: http
+  seq: 5
+}
+
+patch {
+  url: http://10.220.0.19:8000/api/stadium/update/:uuid/
+  body: json
+  auth: none
+}
+
+params:path {
+  uuid: 0ab346e9-86e5-41b3-a794-b00eb116ae6a
+}
+
+body:json {
+  {
+    "name": "Sunrise Arenaaa",
+    "capacity": 30000
+  }
+}
