@@ -15,6 +15,7 @@ class Championship(models.Model):
     ]
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True)
     logo = models.ImageField(upload_to="championships/logos/", null=True, blank=True)
     table_image = models.ImageField(upload_to="championships/tables/", null=True, blank=True)
     championship_type = models.CharField( max_length=20, choices=CHAMPIONSHIP_TYPES)
@@ -34,3 +35,8 @@ class Championship(models.Model):
 
     def get_updated_at_utc(self):
         return self.updated_at.astimezone(timezone.utc).isoformat()
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = self.name.lower().replace(" ", "-")
+        super().save(*args, **kwargs)
