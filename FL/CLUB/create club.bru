@@ -1,0 +1,31 @@
+meta {
+  name: create club
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://10.220.0.19:8000/api/club/create/
+  body: multipartForm
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Dallas FC",
+    "federation": "FCH",
+    "emblem": "string",
+    "abbreviation": "string",
+    "stadium": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "coach": "string"
+  }
+}
+
+body:multipart-form {
+  name: Dallas FC
+  federation: FCH
+  emblem: @file(/home/habby-valle/Imagens/fantasy-league/emblemas-celular/Dallas-logo.png)
+  abbreviation: dfc
+  stadium: 0ab346e9-86e5-41b3-a794-b00eb116ae6a
+  coach: Zito
+}
