@@ -35,3 +35,10 @@ class ClubCreateSerializer(serializers.ModelSerializer):
         validated_data["abbreviation"] = abbreviation
         club = Club.objects.create(**validated_data)
         return club
+
+class ClubWithTitlesSerializer(serializers.ModelSerializer):
+    num_titles = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = Club
+        fields = ['id', 'name', 'emblem', 'abbreviation', 'num_titles']
