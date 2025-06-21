@@ -1,8 +1,8 @@
 from datetime import timezone
 from uuid import uuid4
 
-from django.core.files.base import ContentFile
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 
@@ -20,7 +20,10 @@ class Championship(models.Model):
     logo = models.ImageField(upload_to="championships/logos/", null=True, blank=True)
     championship_type = models.CharField( max_length=20, choices=CHAMPIONSHIP_TYPES)
     tier = models.PositiveIntegerField(blank=True, null=True)
-    reputation = models.PositiveIntegerField(default=1, blank=True, null=True)
+    reputation = models.PositiveIntegerField(default=1, blank=True, null=True, validators=[
+        MinValueValidator(1),
+        MaxValueValidator(5)
+    ])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:
