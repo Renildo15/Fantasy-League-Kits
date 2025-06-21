@@ -1,0 +1,15 @@
+meta {
+  name: get champions
+  type: http
+  seq: 6
+}
+
+get {
+  url: http://10.220.0.19:8000/api/championship/champions/:championship_slug/
+  body: none
+  auth: none
+}
+
+params:path {
+  championship_slug: golden-league
+}
