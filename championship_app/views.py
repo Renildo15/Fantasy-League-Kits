@@ -12,7 +12,7 @@ from club_app.models import Club
 from .serializers import ChampionshipCreateSerializer, ChampionshipSerializer
 from club_app.serializers import ClubWithTitlesSerializer
 from title_app.models import HistoryChampionship
-from title_app.serializers import CreateHistoryChampionshipSerializer
+from title_app.serializers import CreateHistoryChampionshipSerializer, HistoryChampionshipSerializer, HistoryChampionshipWrappedSerializer
 
 from django.db.models import Q
 
@@ -107,3 +107,24 @@ class ChampionshipCreateChampionView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class ChampionshipHistoryView(generics.ListAPIView):
+    serializer_class = HistoryChampionshipWrappedSerializer
+    permission_classes = []
+    
+    def get_queryset(self):
+        championship_slug = self.kwargs.get("championship_slug")
+        return HistoryChampionship.objects.filter(championship__slug=championship_slug).order_by("-year")
+    
+class ChampionshipHistoryDetailView(generics.ListAPIView):
+    serializer_class = HistoryChampionshipWrappedSerializer
+    permission_classes = []
+
+    def get_queryset(self):
+        championship_slug = self.kwargs.get("championship_slug")
+        club_uuid = self.kwargs.get("club_uuid")
+        
+        return HistoryChampionship.objects.filter(
+            championship__slug=championship_slug,
+            club__id=club_uuid
+        ).order_by("-year")

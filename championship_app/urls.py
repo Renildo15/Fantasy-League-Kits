@@ -12,4 +12,6 @@ urlpatterns = [
     path("delete/<uuid:pk>/", ChampionshipDeleteView.as_view(), name="delete_championship"),
     path("champions/<slug:championship_slug>/", ChampionshipChampionsView.as_view(), name="championship_champions"),
     path("create/season-history/<slug:championship_slug>/<uuid:club_uuid>/", ChampionshipCreateChampionView.as_view(), name="create_champion"),
+    path("history/<slug:championship_slug>/", ChampionshipHistoryView.as_view(), name="championship_history"),
+    path("history/<slug:championship_slug>/<uuid:club_uuid>/", ChampionshipHistoryDetailView.as_view(), name="championship_history_detail"),
 ]
