@@ -1,0 +1,31 @@
+meta {
+  name: get  club history
+  type: http
+  seq: 9
+}
+
+get {
+  url: http://10.220.0.19:8000/api/championship/history/:championship_slug/:club_uuid/
+  body: none
+  auth: none
+}
+
+params:path {
+  club_uuid: 8840b178-bef6-4484-8121-0176bf78619b
+  championship_slug: golden-league
+}
+
+body:json {
+  {
+    "year": 31,
+    "coach": "Iruk",
+    "captain": "Maqeda",
+    "runner_up": "0520bb09-ffde-40dc-9181-9b132e7db437",
+    "top_scorer": "Rudy Lombardi",
+    "top_scorer_goals": 21,
+    "top_assist": "Dunkara",
+    "top_assist_goals": 12,
+    "top_goalkeeper": "Polo Ramirez",
+    "top_goalkeeper_clean_sheets": 19
+  }
+}
