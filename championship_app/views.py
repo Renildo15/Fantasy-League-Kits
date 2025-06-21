@@ -4,7 +4,6 @@ from rest_framework.filters import SearchFilter
 from django.db.models import Count
 
 from .models import Championship
-from title_app.models import Title
 from club_app.models import Club
 from .serializers import ChampionshipCreateSerializer, ChampionshipSerializer
 from club_app.serializers import ClubWithTitlesSerializer
@@ -62,9 +61,9 @@ class ChampionshipChampionsView(generics.ListAPIView):
             return Club.objects.none()
         
         champions_club = Club.objects.filter(
-            titles__championship__slug=championship_slug
+            history_championship__championship__slug=championship_slug
         ).annotate(
-            num_titles=Count('titles', filter=Q(titles__championship__slug=championship_slug))
+            num_titles=Count('history_championship', filter=Q(history_championship__championship__slug=championship_slug))
         ).order_by('-num_titles', 'name') 
 
         return champions_club
