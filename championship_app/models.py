@@ -12,14 +12,15 @@ class Championship(models.Model):
         ('LEAGUE', 'League'),
         ('KNOCKOUT', 'Knockout'),
         ('GROUP_KNOCKOUT', 'Group Stage + Knockout'),
+        ('LEAGUE_KNOCKOUT', 'League + Knockout'),
     ]
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
     logo = models.ImageField(upload_to="championships/logos/", null=True, blank=True)
-    table_image = models.ImageField(upload_to="championships/tables/", null=True, blank=True)
     championship_type = models.CharField( max_length=20, choices=CHAMPIONSHIP_TYPES)
     tier = models.PositiveIntegerField(blank=True, null=True)
+    reputation = models.PositiveIntegerField(default=1, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:

@@ -25,6 +25,7 @@ class HistoryChampionship(models.Model):
     top_assist_goals = models.PositiveIntegerField(blank=True, null=True)
     top_goalkeeper = models.CharField(max_length=255, blank=True, null=True)
     top_goalkeeper_clean_sheets = models.PositiveIntegerField(blank=True, null=True)
+    table_image = models.ImageField(upload_to="history/tables/", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -12,7 +12,7 @@ class ChampionshipSerializer(serializers.ModelSerializer):
 class ChampionshipCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Championship
-        fields = ["name", "logo", "table_image", "championship_type", "tier"]
+        fields = ["name", "logo", "championship_type", "tier"]
 
     def create(self, validated_data):
         club = Championship.objects.create(**validated_data)
